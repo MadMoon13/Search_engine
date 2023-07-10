@@ -109,7 +109,7 @@ void ConverterJSON::putAnswers(const std::vector<std::vector<std::pair<int, floa
     }
     for (int i = 0; i < answers.size(); i++) {
         put_answers["answers:"][requests_name[i]]["result"] = {check_not_empty[i]};
-        if (check_not_empty[i] == true) {
+        if (check_not_empty[i]) {
             if (relevancy.size() > 1) {
             put_answers["answers:"][requests_name[i]]["relevance"] = {relevancy[i]};
             } else {

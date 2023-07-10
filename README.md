@@ -22,9 +22,13 @@ There is only one thing left to do and it's to create file "answers.json", which
 ## Implemented classes
 **ConverterJSON** - as mentioned above, this class is responsible for handling our .json files, i.e. "config", "requests" and "answers". To do so it implement's a few methods: 
 
-* getTextDocuments() - this method attempts to open file "config.json" and will terminate execution of a programm if file is not found or corrupted. If file opened successfully then method will attempt to form <vector> of <string> type from content of the source files. In case of missing files a warning will be issued, but execution will continue. 
+* checkConfigIntegrity() - this method attempts to open file "config.json" and will terminate execution of a programm if file is not found or corrupted.
+
+* checkRequestsIntegrity() - similar to the one described above, but it will check "requests.json" instead.   
+
+* getTextDocuments() - method will attempt to form <vector> of <string> type from content of the source files. In case of missing files a warning will be issued, but execution will continue. 
  
-* getRequests() - this method is pretty much similar to one described above and will also stop futher execution if file "requests.json" not found.
+* getRequests() - this method is pretty much similar to one described above.
 
 * getResponsesLimit() - get number of possible responses to a single request, to determine how many relevant documents will be included in "answers.json".
 
@@ -39,6 +43,8 @@ There is only one thing left to do and it's to create file "answers.json", which
 * getWordsCount() - attempts to iterate through dictionary and return <vector> filled with "Entry" for a given word.
 
 * print() - supplementary method, not currently used, just in case.
+
+* sortDictionaryIds() - this method is present to make sure what documents are structured by their id's in the correct order, i.e. from lowest id to highest id.
 
 **SearchServer** - After .json files have been handled and dictionary have been filled it is finally time to get results for our requests. Here is how:
 

@@ -59,6 +59,10 @@ void InvertedIndex::updateDocumentBase(const std::vector<std::string> &input_doc
     for (auto &x : th) {
         x.join();
     }
+    for (auto &x : freq_dictionary) {
+        // make sure documents are sorted by their id's.
+        sortDictionaryIds(x.second);
+    }
 }
 
 // after dictionary is formed. current method allows us to get entries for a certain word.
@@ -85,5 +89,16 @@ void InvertedIndex::print() {
             }
         }
         std::cout << std::endl;
+    }
+}
+
+// sort documents by their id's, since there can be a trouble with an order in which they are organized inside the collection.
+void InvertedIndex::sortDictionaryIds(std::vector<Entry> &entries) {
+    for (auto &x : entries) {
+        for (auto &y : entries) {
+            if (x.doc_id < y.doc_id) {
+                std::swap(x, y);
+            }
+        }
     }
 }

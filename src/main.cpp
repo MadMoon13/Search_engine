@@ -5,13 +5,11 @@
 int main() {
     // start program by creating object responsible for working with .json files (config, requests. source files).
     ConverterJSON conv;
-    // check if any of the source files are missing. Note what absence of any or all source files will not terminate an
-    // execution of program, but will rather produce a message.
-    try {
-        conv.getTextDocuments();
-    } catch (const MissingFiles &x) {
-        std::cout << x.what();
-    }
+
+    // check if crucial files are missing, it can be either "config.json" or "requests.json"
+    conv.checkConfigIntegrity();
+    conv.checkRequestsIntegrity();
+
     // create objects of specified types, by means provided by ConverterJSON class, to be passed to other classes.
     auto docs = conv.getTextDocuments();
     auto requests = conv.getRequests();

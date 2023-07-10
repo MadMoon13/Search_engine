@@ -22,6 +22,7 @@ public:
     void breakDownString(const std::string& input, const int& id);
     void updateDocumentBase(const std::vector<std::string>& input_docs);
     void print();
+    void sortDictionaryIds(std::vector<Entry>& entries);
 private:
     std::map<std::string, std::vector<Entry>> freq_dictionary;
 };

@@ -16,15 +16,6 @@ public:
     }
 };
 
-// exception for a case of missing source files
-class MissingFiles: public std::exception {
-public:
-    const char* what() const noexcept override {
-        return "One or more files, defined as source files by \"config.json\" are missing.\n"
-               "Please make sure all files are present in the project root directory.\n";
-    }
-};
-
 // exception for a missing requests file. Since implementation was not specified in the task,
 // if corresponding file is missing, it will terminate the execution of a program.
 class MissingRequest: public std::exception {
@@ -37,6 +28,8 @@ class MissingRequest: public std::exception {
 class ConverterJSON {
 public:
     ConverterJSON() = default;
+    void checkConfigIntegrity();
+    void checkRequestsIntegrity();
     std::vector<std::string> getTextDocuments();
     std::vector<std::string> getRequests();
     int getResponsesLimit();

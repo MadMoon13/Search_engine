@@ -1,14 +1,29 @@
 #include "converterJSON.h"
 
+// check if "config.json" is present int the root directory and readable.
+void ConverterJSON::checkConfigIntegrity() {
+    std::ifstream check("..\\..\\config.json");
+    if (check.is_open()) {
+        check.close();
+    } else {
+        throw ConfigNotFound();
+    }
+}
+
+void ConverterJSON::checkRequestsIntegrity() {
+    std::ifstream check("..\\..\\requests.json");
+    if (check.is_open()) {
+        check.close();
+    } else {
+        throw MissingRequest();
+    }
+}
+
 // this method implemented to get content out of the source files with .txt extension and convert them to strings.
 std::vector<std::string> ConverterJSON::getTextDocuments() {
     std::vector<std::string> documents;
     std::string path_to_config = "..\\..\\config.json"; // relative path to config file.
     std::ifstream read_config(path_to_config);
-    if (!read_config.is_open()) {
-        // terminate execution if config is not found, have different extension, corrupted, etc.
-        throw ConfigNotFound();
-    }
     nlohmann::json from_file;
     read_config >> from_file;
     read_config.close();
@@ -28,7 +43,8 @@ std::vector<std::string> ConverterJSON::getTextDocuments() {
     if (!all_is_open) {
         // if after iteration through files, defined as source files by config, some of them are missing or can not be
         // opened - there will be a warning, but execution won't be stopped.
-        throw MissingFiles();
+        std::cout << "Some of the files, defined as source files by \"config.json\" are missing.\n"
+                     "Please make sure what all files are placed in the project root directory.\n";
     }
     return documents;
 }
@@ -39,12 +55,7 @@ std::vector<std::string> ConverterJSON::getRequests() {
     std::string path_to_requests = "..\\..\\requests.json";
     std::ifstream read_requests(path_to_requests);
     nlohmann::json from_file;
-    if (read_requests.is_open()) {
-        read_requests >> from_file;
-    } else {
-        // will terminate execution in case of missing requests file.
-        throw MissingRequest();
-    }
+    read_requests >> from_file;
     read_requests.close();
     for (auto it = from_file["requests"].begin(); it != from_file["requests"].end(); it++) {
         std::string content = it.value();
@@ -55,7 +66,7 @@ std::vector<std::string> ConverterJSON::getRequests() {
 
 // method speaks for itself, we are getting maximum amount of responses.
 int ConverterJSON::getResponsesLimit() {
-    auto path_to_config = std::filesystem::relative("C:\\SB\\SE_5\\config.json");
+    std::string path_to_config = "..\\..\\config.json";
     std::ifstream read_config(path_to_config);
     nlohmann::json from_file;
     read_config >> from_file;
